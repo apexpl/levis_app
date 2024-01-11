@@ -1,0 +1,53 @@
+<?php
+declare(strict_types = 1);
+
+namespace ~namespace~;
+
+use Apex\Cli\{Cli, CliHelpScreen};
+use Apex\Cli\Interfaces\CliCommandInterface;
+
+/**
+ * CLI Command -- ./levis ~alias.lower~
+ */
+class ~class_name~ implements CliCommandInterface
+{
+
+    /**
+     * Process
+     */
+    public function process(Cli $cli, array $args):void
+    {
+
+        // Get CLI arguments
+        $opt = $cli->getArgs(['myflag1', 'myflag2']);
+
+    }
+
+    /**
+     * Help
+     */
+    public function help(Cli $cli):CliHelpScreen
+    {
+
+        $help = new CliHelpScreen(
+            title: '~alias.phrase~',
+            usage: '~package.lower~ ~alias.lower~',
+            description: 'Description of the command here'
+        );
+
+        // Add parameters
+        $help->addParam('param1', 'Description of parameter.');
+
+        // Add optional flags
+        $help->addFlag('--some-flag', 'Description of flag.');
+
+        // Add example
+        $help->addExample('./apex ~package.lower~ ~alias.lower~ <param1> [--flat1=...]');
+
+        // Return
+        return $help;
+    }
+
+}
+
+

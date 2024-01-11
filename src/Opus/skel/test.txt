@@ -1,0 +1,25 @@
+<?php
+declare(strict_types = 1);
+
+namespace Tests;
+
+use Levis\App\Utils\LevisTestCase;
+
+/**
+ * ~alias.phrase~ Test
+ */
+class ~alias.title~Test extends LevisTestCase
+{
+
+    /**
+     * Example test
+     */
+    public function testExample():void
+    {
+        $this->assertTrue(true);
+    }
+
+}
+
+
+

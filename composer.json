@@ -1,0 +1,38 @@
+{
+    "name": "apex/levis-app",
+    "description": "Main app package for Levis",
+    "type": "package",
+    "homepage": "https://apexpl.io",
+    "authors": [
+        {
+            "name": "Matt Dizak", 
+            "email": "matt@apexpl.io"
+        }
+    ], 
+    "license": "MIT",
+    "require": {
+        "php": ">=8.1",
+        "apex/container": "^2.0",
+        "apex/router": "^1.0",
+        "apex/syrus": "^2.1",
+        "apex/db": "^2.1",
+        "apex/mercury": "^2.0",
+        "apex/cli": "^2.0",
+        "nyholm/psr7": "^1.8",
+        "nyholm/psr7-server": "^1.0",
+        "psr/http-server-handler": "^1.0",
+        "monolog/monolog": "^3.5",
+        "symfony/yaml": "^6.0 | ^7.0"
+    },
+    "autoload": {
+        "psr-4": { 
+            "Levis\\App\\": "src/",
+            "Levis\\Svc\\": "svc/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    }
+}
