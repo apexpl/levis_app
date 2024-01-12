@@ -39,7 +39,7 @@ class ApiResponse
         ]);
 
     // Create response
-        $res = (new Response(body: $json))
+        $res = (new Response(status: $this->status, body: $json))
             ->withStatus($this->status) 
             ->withAddedHeader('Content-type', 'application/json');
 

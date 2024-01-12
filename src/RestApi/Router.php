@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Levis\App\RestApi;
 
-use Levis\Svc\{Convert, Container, App};
+use Levis\Svc\{Convert, Container, App, Di};
 use Levis\App\RestApi\Models\ApiRoute;
 use Psr\Http\Message\ServerRequestInterface;
 use Symfony\Component\Yaml\Yaml;
@@ -55,6 +55,9 @@ class Router
         // Get class name
         $parts = array_map(fn ($part) => $this->convert->case($part, 'title'), $parts);
         $class_name = "\\App\\Api\\" . implode("\\", $parts);
+        if ($this->app->getBootType() == 'test') {
+            $class_name = "\\Levis" . $class_name;
+        }
 
         // Check if class exists
         if (!class_exists($class_name)) { 

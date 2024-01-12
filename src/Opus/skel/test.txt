@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Tests;
 
-use Levis\App\Utils\LevisTestCase;
+use Levis\App\Utils\Tests\LevisTestCase;
 
 /**
  * ~alias.phrase~ Test

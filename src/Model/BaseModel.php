@@ -1,13 +1,11 @@
 <?php
 declare(strict_types = 1);
 
-namespace Apex\App\Base\Model;
+namespace Levis\App\Model;
 
-use Apex\Svc\{Db, Di, Convert, App};
-use Apex\App\Base\Model\ModelIterator;
-use Apex\App\Interfaces\BaseModelInterface;
-use Apex\App\Exceptions\ApexForeignKeyNotExistsException;
-use Apex\App\Attr\Inject;
+use Levis\Svc\{Db, Di, Convert, App};
+use Levis\App\Model\ModelIterator;
+use Levis\App\Model\BaseModelInterface;
 use DateTime;
 
 /**
@@ -97,7 +95,7 @@ abstract class BaseModel implements BaseModelInterface
         // Get foreign key
         $keys = $db->getReferencedForeignKeys(static::$dbtable);
         if (!isset($keys[$foreign_key])) { 
-            throw new ApexForeignKeyNotExistsException("No foreign key of '$foreign_key' exists on the database table " . static::$dbtable);
+            throw new \Exception("No foreign key of '$foreign_key' exists on the database table " . static::$dbtable);
         }
         $key = $keys[$foreign_key];
 

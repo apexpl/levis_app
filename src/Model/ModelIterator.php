@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace Apex\App\Base\Model;
+namespace Levis\App\Model;
 
 use PDO;
 use Apex\Db\Mapper\ToInstance;

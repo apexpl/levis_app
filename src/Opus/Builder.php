@@ -46,7 +46,11 @@ class Builder extends AbstractBuilder
 
         // Add .html for view
         if ($comp_type == 'view') {
-            file_put_contents(SITE_PATH . '/views/' . strtolower($filename) . '.html', "\n<h1>Page Title</h1>\n\n");
+            $html_file = SITE_PATH . '/views/html/' . strtolower($filename) . '.html';
+            if (!is_dir(dirname($html_file))) {
+                mkdir(dirname($html_file), 0755, true);
+            }
+            file_put_contents($html_file, "\n<h1>Page Title</h1>\n\n");
             $files[] = '/views/html/' . strtolower($filename) . '.html';
         }
 

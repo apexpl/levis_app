@@ -63,7 +63,7 @@ class Cli implements CliCommandInterface
         );
 
         // Params
-        $help->addParam('filename', 'The filename of the CLI command, relative to the /src/Console/ directory.");
+        $help->addParam('filename', 'The filename of the CLI command, relative to the /src/Console/ directory.');
         $help->addExample('./levis create cli invoices/generate');
 
         // Return

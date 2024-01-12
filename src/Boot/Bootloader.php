@@ -16,25 +16,26 @@ class Bootloader extends RequestInputs
 {
 
     // Properties
-    protected ApexContainerInterface $cntr;
+    protected ?ApexContainerInterface $cntr = null;
     protected ServerRequestInterface $request;
     protected string $path;
     protected string $content_type = 'text/html';
+    protected string $boot_type = 'app';
 
     /**
      * Load request
      */
-    protected function bootload()
+    protected function bootload(string $boot_type = 'app')
     {
 
         // Initialize
-        $this->initialize();
+        $first_boot = $this->initialize();
 
         // Load configuration
         $this->loadConfigVars();
 
         // Build DI container
-        $this->cntr = Container::build($this->_config);
+        $this->cntr = Container::build($this->_config, $boot_type, $first_boot);
 
         // Generate PSR7 compliant http request
         $this->setRequest();
@@ -43,12 +44,12 @@ class Bootloader extends RequestInputs
     /**
      * Initialize
      */
-    private function initialize()
+    private function initialize():bool
     {
 
         // Check if already initialized
         if (defined('SITE_PATH')) {
-            return;
+            return false;
         }
 
         // Define site_path
@@ -67,6 +68,9 @@ class Bootloader extends RequestInputs
         // Set INI variables
         ini_set('pcre.backtrack_limit', '4M');
         ini_set('zlib.output_compression_level', '2');
+
+        // Return
+        return true;
     }
 
     /**

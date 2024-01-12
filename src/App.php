@@ -20,7 +20,13 @@ class App extends Bootloader implements RequestHandlerInterface
      */
     public function __construct()
     {
-        $this->bootload();
+
+        // Check for phpunit
+        if (isset($_SERVER['PHP_SELF']) && preg_match("/phpunit/i", $_SERVER['PHP_SELF'])) {
+            $this->boot_type = 'test';
+        }
+
+        $this->bootload($this->boot_type);
         $this->cntr->set(__CLASS__, $this);
     }
 
@@ -30,6 +36,14 @@ class App extends Bootloader implements RequestHandlerInterface
     public function getContainer():ApexContainerInterface
     {
         return $this->cntr;
+    }
+
+    /**
+     * Get boot type
+     */
+    public function getBootType():string
+    {
+        return $this->boot_type;
     }
 
     /**

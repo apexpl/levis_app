@@ -22,7 +22,7 @@ class Container
     /**
      * Build container
      */
-    public static function build(array $config):ApexContainerInterface
+    public static function build(array $config, string $boot_type = 'app', bool $first_boot = true):ApexContainerInterface
     {
 
         // Load container
@@ -37,7 +37,7 @@ class Container
         $cntr->buildContainer('', $items);
 
         // Set system items
-        $cntr = self::setSystemItems($cntr, $config);
+        $cntr = self::setSystemItems($cntr, $config, $boot_type);
 
         // Set database credentials
         $cntr = self::setDatabaseCredentials($cntr, $config);
@@ -46,7 +46,10 @@ class Container
         $cntr = self::markServices($cntr, $services);
 
         // Define necessary aliases
-        $cntr = self::defineAliases($cntr, $items);
+        if ($first_boot === true) {
+            $cntr = self::defineAliases($cntr, $items, $boot_type);
+        }
+
 
         // Set into Di wrapper
         \Apex\Container\Di::setContainer($cntr);
@@ -58,14 +61,17 @@ class Container
     /**
      * Set system items
      */
-    private static function setSystemItems(ApexContainerInterface $cntr, array $config):ApexContainerInterface
+    private static function setSystemItems(ApexContainerInterface $cntr, array $config, string $boot_type = 'app'):ApexContainerInterface
     {
+
+        // Initialize
+        $router_middleware = $boot_type == 'test' ? "Levis\\App\\HttpControllers" : "App\\HttpControllers";
 
         // Define items
         $sys_items = [ 
             RouterInterface::class => [\Apex\Router\Router::class, [
                 'routes_yaml_file' => SITE_PATH . '/config/routes.yml',
-                'middleware_namespace' => "App\\HttpControllers\\"
+                'middleware_namespace' => $router_middleware
             ]],
             LoggerInterface::class => function() { 
                 return new \Monolog\Logger('app', [
@@ -79,6 +85,7 @@ class Container
             LoaderInterface::class => \Levis\App\Utils\SyrusAdapter::class,
             'syrus.template_dir' => SITE_PATH . '/views', 
             'syrus.site_yml' => SITE_PATH . '/config/routes.yml', 
+            'syrus.require_http_method' => true,
             'syrus.theme_uri' => '/theme', 
             'syrus.php_namespace' => "Views", 
             'syrus.enable_autorouting' => true, 
@@ -164,7 +171,7 @@ class Container
     /**
      * Define aliases
      */
-    private static function defineAliases(ApexContainerInterface $cntr, array $items):ApexContainerInterface
+    private static function defineAliases(ApexContainerInterface $cntr, array $items, string $boot_type = 'app'):ApexContainerInterface
     {
 
         // Set aliases
@@ -177,6 +184,11 @@ class Container
             \Levis\Svc\HttpClient::class => HttpClientInterface::class,
             \Levis\Svc\Logger::class => LoggerInterface::class
         ];
+
+        // If unit ests are being executed
+        if ($boot_type == 'test') {
+            $aliases[\Apex\Cli\Cli::class] = \Levis\App\Utils\Tests\CliStub::class;
+        }
 
         // Mark aliases
         foreach ($aliases as $item => $alias) { 
