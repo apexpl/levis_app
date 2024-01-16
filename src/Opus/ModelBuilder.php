@@ -62,7 +62,7 @@ class ModelBuilder extends AbstractBuilder
 
         // Generate any queued models
         foreach (ForeignKeysHelper::$queue as $table_name => $filename) { 
-            $this->build($filename, SITE_PATH, $table_name, 'php8', $with_magic, $auto_confirm);
+            $this->build($filename, $table_name, $with_magic, $auto_confirm);
         }
 
         // Return filename

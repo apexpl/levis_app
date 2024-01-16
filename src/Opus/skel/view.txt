@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Views~parent_namespace~;
 
-use Apex\Svc\{View, App};
+use Levis\Svc\{View, App};
 
 /**
  * Render the template.  All methods below are optional, may be 

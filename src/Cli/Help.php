@@ -22,9 +22,14 @@ class Help
             usage: './levis <COMMAND> [<ARGS>]',
             description: 'Various Levis commands to generate class files such as models, views and API endpoints.'
         );
-        $help->setParamsTitle('CATEGORIES');
 
-        $help->addParam('create', 'Comments to create various classes for models, views, HTTP controllers, etc.');
+
+        $help->setParamsTitle('CATEGORIES');
+        $help->addParam('create', 'Commands to create various classes for models, views, HTTP controllers, etc.');
+
+        $help->setFlagsTitle('COMMANDS');
+        $help->addFlag('sql', 'Execute SQL queries against database, or connect to database prompt.');
+        $help->addFlag('dump-db', 'Dump mySQL / PostgreSQL database to a file.');
 
         // Return
         return $help;

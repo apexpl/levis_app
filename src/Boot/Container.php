@@ -148,6 +148,7 @@ class Container
         // Define services
         $sys_services = [
             \Apex\Armor\Armor::class, 
+            \Apex\Syrus\Syrus::class,
             \Levis\Svc\Container::class,
             \Levis\Svc\Convert::class,
             \Levis\Svc\Emailer::class,
@@ -182,7 +183,8 @@ class Container
             \Levis\Svc\Db::class => DbInterface::class,
             \Levis\Svc\Emailer::class => EmailerInterface::class,
             \Levis\Svc\HttpClient::class => HttpClientInterface::class,
-            \Levis\Svc\Logger::class => LoggerInterface::class
+            \Levis\Svc\Logger::class => LoggerInterface::class,
+            \Levis\Svc\View::class => \Apex\Syrus\Syrus::class
         ];
 
         // If unit ests are being executed
@@ -194,6 +196,7 @@ class Container
         foreach ($aliases as $item => $alias) { 
             $cntr->addAlias($item, $alias);
         }
+        //$cntr->addAlias(\Apex\Syrus\Syrus::class, \Levis\Svc\View::class, false);
 
         // Return
         return $cntr;

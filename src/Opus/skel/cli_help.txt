@@ -1,0 +1,38 @@
+<?php
+declare(strict_types = 1);
+
+namespace ~namespace~;
+
+use Apex\Cli\{Cli, CliHelpScreen};
+
+/**
+ * Help - ~alias.lower~
+ */
+class Help
+{
+
+    /**
+     * Help
+     */
+    public function help(Cli $cli):CliHelpScreen
+    {
+
+        $help = new CliHelpScreen(
+            title: '~alias.phrase~ Commands',
+            usage: './levis ~alias.lower~ <COMMAND> [<ARGS>]',
+            description: 'Description of the available ~alias~ commands.'
+        );
+        $help->setParamsTitle('COMMANDS');
+
+        // Add commands
+        $help->addParam('cmd1', 'Description of first command.');
+        $help->addParam('cmd2', 'Description of second command.');
+        $help->addParam('cmd3', 'Description of third command.');
+
+        // Return
+        return $help;
+    }
+
+}
+
+

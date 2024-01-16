@@ -3,8 +3,10 @@ declare(strict_types = 1);
 
 namespace Levis\App\Cli\Create;
 
+use Levis\Svc\Container;
 use Apex\Cli\{Cli, CliHelpScreen};
 use Levis\App\Opus\Builder;
+use Apex\Router\RouterConfig;
 use Apex\Cli\Interfaces\CliCommandInterface;
 
 /**
@@ -12,6 +14,9 @@ use Apex\Cli\Interfaces\CliCommandInterface;
  */
 class View implements CliCommandInterface
 {
+
+    #[Inject(Container::class)]
+    private Container $cntr;
 
     #[Inject(Builder::class)]
     private Builder $builder;
@@ -23,6 +28,8 @@ class View implements CliCommandInterface
     {
 
         // Initialize
+        $opt = $cli->getArgs(['route']);
+        $route = $opt['route'] ?? '';
         $uri = preg_replace("/\.html$/", "", trim(strtolower(($args[0] ?? '')), '/'));
 
         // Check
@@ -46,6 +53,12 @@ class View implements CliCommandInterface
             'parent_namespace' => $parent_nm
         ]);
 
+        // Add route, if needed
+        if ($route != '') {
+            $router_config = $this->cntr->make(RouterConfig::class, ['routes_yaml_file' => SITE_PATH . '/config/routes.yml']);
+            $router_config->add($route, 'PublicSite', 'default');
+        }
+
         // Success message
         $cli->success("Successfully created new view for URI $uri, and files are now available at:", $files);
     }
@@ -58,12 +71,13 @@ class View implements CliCommandInterface
 
         $help = new CliHelpScreen(
             title: 'Create View',
-            usage: './levis create view <URI>',
+            usage: './levis create view <URI> [--route=<ROUTE>]',
             description: 'Create a new view.'
         );
 
         // Params
         $help->addParam('uri', 'The URI of the new view, as will be viewed within the web browser and placed relative to the /views/html/ directory.');
+        $help->addFlag('--route', "Optional route, and if defined will add new entry into /config/routes.yml file.");
         $help->addExample('./levis create view admin/products/add');
 
         // Return

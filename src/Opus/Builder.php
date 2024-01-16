@@ -19,7 +19,7 @@ class Builder extends AbstractBuilder
         $dest = match($comp_type) {
             'view' => '/views/php/' . strtolower($filename) . '.php',
             'test' => '/tests/' . $this->applyFilter($filename, 'title') . 'Test.php',
-            default => 'src/' . ltrim(rtrim($filename, '.php'), '.php') . '.php'
+            default => $this->formatFilename($filename)
         };
         $dest = ltrim($dest, '/');
 
@@ -52,10 +52,34 @@ class Builder extends AbstractBuilder
             }
             file_put_contents($html_file, "\n<h1>Page Title</h1>\n\n");
             $files[] = '/views/html/' . strtolower($filename) . '.html';
+
+        // CLI Help Screen
+        } elseif ($comp_type == 'cli' && count(scandir(dirname(SITE_PATH . '/' . $dest))) < 4) {
+            $parts = explode('/', trim($dest, '/'));
+            array_pop($parts);
+            array_shift($parts);
+        $parts[] = 'Help';
+            $help_files = $this->build('cli_help', implode('/', $parts), $vars);
+            $files[] = $help_files[0];
         }
 
         // Return
         return $files;
+    }
+
+    /**
+     * Format filename
+     */
+    private function formatFilename(string $filename):string
+    {
+
+        // Strip as needed
+        $filename = preg_replace("/^src\//", "", ltrim($filename, '/'));
+        $filename = preg_replace("/\.php$/", "", $filename);
+
+        // Return
+        $res = 'src/' . $filename . '.php';
+        return $res;
     }
 
 }

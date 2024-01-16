@@ -178,7 +178,7 @@ class ForeignKeysHelper extends AbstractBuilder
             $this->cli->send("Please enter the filepath relative to the /src/ directory where you would like the new model class for '$table_name' saved.  Leave blank and press enter to accept the default value provided.\r\n\r\n");
             $filename = $this->cli->getInput("Filepath of Model [$filename]: ", $filename);
         }
-        $filename = $this->opus_helper->parseFilename($filename);
+        $filename = $this->parseFilename($filename);
 
         // Add to queue
         ForeignKeysHelper::$queue[$table_name] = $filename;
@@ -278,6 +278,25 @@ class ForeignKeysHelper extends AbstractBuilder
         // Return
         return strtr($tmp_code, $replace);
     }
+
+    /**
+     * Parse filename
+     */
+    private function parseFilename(string $filename, string $prefix = 'src'):string
+    {
+
+        // Format filename
+        if (!preg_match("/^$prefix\//", $filename)) { 
+            $filename = $prefix . '/' . ltrim($filename, '/');
+        }
+        if (!preg_match("/\.php$/", $filename)) { 
+            $filename .= '.php';
+        }
+
+        // Return
+        return $filename;
+    }
+
 
 }
 
