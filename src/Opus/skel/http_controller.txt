@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace ~namespace~;
 
-use Apex\Svc\View;
+use Levis\Svc\View;
 use Nyholm\Psr7\Response;
 use Psr\Http\Message\{ServerRequestInterface, ResponseInterface};
 use Psr\Http\Server\{MiddlewareInterface, RequestHandlerInterface};
