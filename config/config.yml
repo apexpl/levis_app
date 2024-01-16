@@ -21,12 +21,12 @@ database:
 # SMTP Credentials - Only if sending e-mail via SMTP
 ####################
 
-smtp:
-    host: smtp.gmail.com
-    port: 465
-    is_ssl: 1
-    user: contact@gmail.com
-    password: 7a1QG_zGOffecIhLHJlP3l5b
+#smtp:
+    #host: smtp.gmail.com
+    #port: 465
+    #is_ssl: 1
+    #user: me@gmail.com
+    #password: secret
 
 ####################
 # Configuration
