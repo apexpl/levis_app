@@ -31,7 +31,7 @@ class ~class_name~ implements CliCommandInterface
 
         $help = new CliHelpScreen(
             title: '~alias.phrase~',
-            usage: '~package.lower~ ~alias.lower~',
+            usage: './levis ~alias.lower~',
             description: 'Description of the command here'
         );
 
@@ -42,7 +42,7 @@ class ~class_name~ implements CliCommandInterface
         $help->addFlag('--some-flag', 'Description of flag.');
 
         // Add example
-        $help->addExample('./apex ~package.lower~ ~alias.lower~ <param1> [--flat1=...]');
+        $help->addExample('./levis ~alias.lower~ <param1> [--flat1=...]');
 
         // Return
         return $help;
