@@ -61,7 +61,7 @@ class Bootloader extends RequestInputs
 
         // Set error reporting
         $error_handlers = new ErrorHandlers();
-        error_reporting(E_ALL);
+        error_reporting(E_ALL & ~E_DEPRECATED & ~E_NOTICE);
         set_error_handler([$error_handlers, 'error']);
         set_exception_handler([$error_handlers, 'handleException']);
 
