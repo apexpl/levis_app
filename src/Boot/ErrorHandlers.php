@@ -28,6 +28,11 @@ class ErrorHandlers
     public function error(int $errno, string $message, string $file, int $line):void
     {
 
+        // Ignore deprecations.  Must happen before touching the container, as this can fire during early boot, before aliases are defined.
+        if ($errno === E_DEPRECATED || $errno === E_USER_DEPRECATED) {
+            return;
+        }
+
         // Initialize
         $file = str_replace(SITE_PATH, '', $file);
         $this->app = Di::get(App::class);
